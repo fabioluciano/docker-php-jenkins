@@ -3,6 +3,7 @@ FROM alpine:latest
 MAINTAINER Fábio Luciano <fabio.goisl@ctis.com.br>
 
 ENV JENKINS_HOME /var/lib/jenkins
+ENV JENKINS_UC https://updates.jenkins.io
 
 RUN apk add --update openjdk8 ttf-dejavu \
     php-common php-iconv php-json php-gd php-curl php-xml php-pgsql \
