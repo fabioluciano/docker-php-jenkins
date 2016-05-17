@@ -2,8 +2,7 @@ FROM alpine:latest
 
 MAINTAINER Fábio Luciano <fabio.goisl@ctis.com.br>
 
-ENV JENKINS_HOME /var/lib/jenkins
-ENV JENKINS_UC https://updates.jenkins.io
+ENV JENKINS_HOME /opt/jenkins/
 
 RUN apk add --update openjdk8 ttf-dejavu \
     php-common php-iconv php-json php-gd php-curl php-xml php-pgsql \
@@ -12,8 +11,8 @@ RUN apk add --update openjdk8 ttf-dejavu \
     php-phar php-openssl php-xsl
 RUN rm -rf /var/cache/apk/*
 
+# PHP Related
 COPY config/pecl /usr/bin/pecl
-
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer global require phpmetrics/phpmetrics
 RUN composer global require squizlabs/php_codesniffer
@@ -35,10 +34,12 @@ RUN chown -R jenkins:jenkins $JENKINS_HOME
 ADD http://mirrors.jenkins-ci.org/war/latest/jenkins.war $JENKINS_HOME/jenkins.war
 RUN chmod 644 $JENKINS_HOME/jenkins.war
 
-COPY config/plugins.sh /usr/local/bin/plugins.sh
-RUN chmod +x /usr/local/bin/plugins.sh
+RUN mkdir -p /opt/oracle/instantclient
 
-COPY config/plugins.txt /plugins.txt
-RUN /usr/local/bin/plugins.sh /plugins.txt
+WORKDIR /opt/oracle/instantclient
+COPY packages/instantclient-basic-linux.x64-12.1.0.2.0.zip .
+COPY packages/instantclient-sdk-linux.x64-12.1.0.2.0.zip .
+RUN unzip packages/instantclient-basic-linux.x64-12.1.0.2.0.zip
+RUN unzip packages/instantclient-sdk-linux.x64-12.1.0.2.0.zip
 
 EXPOSE 8080
