@@ -36,6 +36,8 @@ ADD http://mirrors.jenkins-ci.org/war/latest/jenkins.war $JENKINS_HOME/jenkins.w
 RUN chmod 644 $JENKINS_HOME/jenkins.war
 
 COPY config/plugins.sh /usr/local/bin/plugins.sh
+RUN chmod +x /usr/local/bin/plugins.sh
+
 COPY config/plugins.txt /plugins.txt
 RUN /usr/local/bin/plugins.sh /plugins.txt
 
