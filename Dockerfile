@@ -35,4 +35,8 @@ RUN chown -R jenkins:jenkins $JENKINS_HOME
 ADD http://mirrors.jenkins-ci.org/war/latest/jenkins.war $JENKINS_HOME/jenkins.war
 RUN chmod 644 $JENKINS_HOME/jenkins.war
 
+COPY config/jenkins.sh /usr/local/bin/jenkins.sh
+COPY config/plugins.txt /plugins.txt
+RUN /usr/local/bin/plugins.sh /plugins.txt
+
 EXPOSE 8080
