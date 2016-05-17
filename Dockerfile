@@ -39,7 +39,7 @@ RUN mkdir -p /opt/oracle/instantclient
 WORKDIR /opt/oracle/instantclient
 COPY packages/instantclient-basic-linux.x64-12.1.0.2.0.zip .
 COPY packages/instantclient-sdk-linux.x64-12.1.0.2.0.zip .
-RUN unzip packages/instantclient-basic-linux.x64-12.1.0.2.0.zip
-RUN unzip packages/instantclient-sdk-linux.x64-12.1.0.2.0.zip
+RUN unzip instantclient-basic-linux.x64-12.1.0.2.0.zip
+RUN unzip instantclient-sdk-linux.x64-12.1.0.2.0.zip
 
 EXPOSE 8080
