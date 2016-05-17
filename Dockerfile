@@ -34,12 +34,10 @@ RUN chown -R jenkins:jenkins $JENKINS_HOME
 ADD http://mirrors.jenkins-ci.org/war/latest/jenkins.war $JENKINS_HOME/jenkins.war
 RUN chmod 644 $JENKINS_HOME/jenkins.war
 
-RUN mkdir -p /opt/oracle/instantclient
+RUN mkdir -p /opt/oracle
 
 WORKDIR /opt/oracle/instantclient
-COPY packages/instantclient-basic-linux.x64-12.1.0.2.0.zip .
-COPY packages/instantclient-sdk-linux.x64-12.1.0.2.0.zip .
-RUN unzip instantclient-basic-linux.x64-12.1.0.2.0.zip
-RUN unzip instantclient-sdk-linux.x64-12.1.0.2.0.zip
+COPY packages/instantclient.tar.gz .
+RUN tar -xvf instantclient.tar.gz
 
 EXPOSE 8080
