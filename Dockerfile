@@ -36,7 +36,7 @@ RUN chmod 644 $JENKINS_HOME/jenkins.war
 
 RUN mkdir -p /opt/oracle
 
-WORKDIR /opt/oracle/instantclient
+WORKDIR /opt/oracle/
 COPY packages/instantclient.tar.gz .
 RUN tar -xvf instantclient.tar.gz
 
