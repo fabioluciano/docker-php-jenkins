@@ -33,9 +33,12 @@ RUN chmod 644 $JENKINS_HOME/jenkins.war
 
 RUN mkdir -p /opt/oracle
 
-WORKDIR /opt/oracle/
-ADD packages/instantclient.tar.gz /opt/oracle
-RUN printf "instantclient,/opt/oracle/instantclient" | pecl install oci8-2.0.11
-RUN echo "extension=oci8.so" > /etc/php.d/oci8.ini
+COPY packages/oracle-instantclient12.1-devel-12.1.0.2.0-1.x86_64.rpm /tmp/
+RUN yum install oracle-instantclient12.1-devel-12.1.0.2.0-1.x86_64.rpm
+
+# WORKDIR /opt/oracle/
+# ADD packages/instantclient.tar.gz /opt/oracle
+# RUN printf "instantclient,/opt/oracle/instantclient" | pecl install oci8-2.0.11
+# RUN echo "extension=oci8.so" > /etc/php.d/oci8.ini
 
 EXPOSE 8080
