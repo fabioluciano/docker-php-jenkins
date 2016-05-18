@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM ubuntu
 
 MAINTAINER Fábio Luciano <fabio.goisl@ctis.com.br>
 
@@ -8,7 +8,8 @@ RUN apk add --update openjdk8 ttf-dejavu \
     php-common php-iconv php-json php-gd php-curl php-xml php-pgsql \
     php-imap php-cgi fcgi php-pdo php-pdo_pgsql php-soap php-xmlrpc \
     php-posix php-mcrypt php-gettext php-ldap php-ctype php-dom \
-    php-phar php-openssl php-xsl
+    php-phar php-openssl php-xsl php-pear make g++ autoconf php-dev
+
 RUN rm -rf /var/cache/apk/*
 
 # PHP Related
@@ -37,7 +38,8 @@ RUN chmod 644 $JENKINS_HOME/jenkins.war
 RUN mkdir -p /opt/oracle
 
 WORKDIR /opt/oracle/
-COPY packages/instantclient.tar.gz .
-RUN tar -xvf instantclient.tar.gz
+ADD packages/instantclient.tar.gz /opt/oracle
+RUN printf "instantclient,/opt/oracle/instantclient" | pecl install oci8-2.0.11
+RUN echo "extension=oci8.so" > /etc/php/conf.d/oci8.ini
 
 EXPOSE 8080
