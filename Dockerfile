@@ -36,4 +36,6 @@ RUN echo "extension=oci8.so" > /etc/php.d/oci8.ini
 
 RUN chkconfig jenkins on
 
+VOLUME ["/var/lib/jenkins", "/var/log/jenkins"]
+
 EXPOSE 8080
