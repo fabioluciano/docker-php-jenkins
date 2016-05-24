@@ -1,3 +1,0 @@
-# jenkins-php
-
-draft
