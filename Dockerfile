@@ -8,7 +8,7 @@ ADD http://pkg.jenkins-ci.org/redhat/jenkins.repo /etc/yum.repos.d/jenkins.repo
 RUN rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
 
 RUN yum install -y java jenkins dejavu-fonts-common && yum groupinstall 'Development Tools' -y && yum install -y php56w-common php56w-opcache php56w-mbstring php56w-opcache php56w-mcrypt php56w-intl php56w-devel php56w-gd php56w-ldap php56w-mysqlphp56w-pdo php56w-pgsql php56w-xml &&  yum clean all
-RUN yum install initscripts php56w-pear -y && yum clean all
+RUN yum install wget initscripts php56w-pear -y && yum clean all
 
 # PHP Related
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -34,8 +34,11 @@ RUN yum install -y /tmp/oracle-instantclient12.1-devel-12.1.0.2.0-1.x86_64.rpm
 RUN printf "\n" | pecl install oci8-2.0.11
 RUN echo "extension=oci8.so" > /etc/php.d/oci8.ini
 
-RUN chkconfig jenkins on
-
 VOLUME ["/docker/jenkins/config" : "/var/lib/jenkins", "/docker/jenkins/log" : "/var/log/jenkins"]
 
-EXPOSE 8080
+COPY config/plugins.sh config/plugins.txt /tmp/
+RUN chmod +x /tmp/plugins.sh
+RUN /tmp/plugins.sh
+RUN chown jenkins:jenkins -R /var/lib/jenkins/plugins
+
+CMD service jenkins start && tail -F /var/log/jenkins/jenkins.log
