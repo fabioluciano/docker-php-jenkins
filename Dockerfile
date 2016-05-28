@@ -32,16 +32,16 @@ RUN chown jenkins:jenkins -R /var/lib/jenkins/plugins
 # PHP Related
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN composer global require phpmetrics/phpmetrics
-RUN composer global require squizlabs/php_codesniffer
-RUN composer global require phpunit/phpunit
-RUN composer global require sebastian/phpcpd
-RUN composer global require sebastian/phpdcd
-RUN composer global require pdepend/pdepend
-RUN composer global require phploc/phploc
-RUN composer global require phpmd/phpmd
-RUN composer global require theseer/phpdox
-#RUN composer global require phpdocumentor/phpdocumentor
+RUN composer global require phpmetrics/phpmetrics --no-progress
+RUN composer global require squizlabs/php_codesniffer --no-progress
+RUN composer global require phpunit/phpunit --no-progress
+RUN composer global require sebastian/phpcpd --no-progress
+RUN composer global require sebastian/phpdcd --no-progress
+RUN composer global require pdepend/pdepend --no-progress
+RUN composer global require phploc/phploc --no-progress
+RUN composer global require phpmd/phpmd --no-progress
+RUN composer global require theseer/phpdox --no-progress
+#RUN composer global require phpdocumentor/phpdocumentor --no-progress
 
 RUN ln -s /usr/share/composer/vendor/bin/* /usr/local/bin/
 
