@@ -9,7 +9,7 @@ RUN rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
 ADD http://pkg.jenkins-ci.org/redhat/jenkins.repo /etc/yum.repos.d/jenkins.repo
 RUN rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
 
-RUN yum install -y java jenkins dejavu-fonts-common ant wget initscripts && yum groupinstall 'Development Tools' -y && yum install -y php56w-common php56w-opcache php56w-mbstring php56w-opcache php56w-mcrypt php56w-intl php56w-devel php56w-gd php56w-ldap php56w-mysql php56w-pdo php56w-pgsql php56w-xml php56w-pear &&  yum clean all
+RUN yum install -y java jenkins dejavu-fonts-common ant wget initscripts openssl-devel && yum groupinstall 'Development Tools' -y && yum install -y php56w-common php56w-opcache php56w-mbstring php56w-opcache php56w-mcrypt php56w-intl php56w-devel php56w-gd php56w-ldap php56w-mysql php56w-pdo php56w-pgsql php56w-xml php56w-pear php56w-pecl-xdebug && yum clean all
 
 COPY packages/oracle-instantclient12.1-basic-12.1.0.2.0-1.x86_64.rpm /tmp/
 COPY packages/oracle-instantclient12.1-sqlplus-12.1.0.2.0-1.x86_64.rpm /tmp/
@@ -20,6 +20,10 @@ RUN yum install -y /tmp/oracle-instantclient12.1-devel-12.1.0.2.0-1.x86_64.rpm
 
 RUN printf "\n" | pecl install oci8-2.0.11
 RUN echo "extension=oci8.so" > /etc/php.d/oci8.ini
+
+RUN printf "\n" | pecl install mongo
+RUN echo "extension=mongo.so" > /etc/php.d/mongo.ini
+
 RUN sed -i "s/^;date.timezone =$/date.timezone = \"America\/Sao_Paulo\"/" /etc/php.ini | grep "^timezone" /etc/php.ini
 
 #VOLUME ["/var/lib/jenkins", "/var/log/jenkins"]
@@ -31,6 +35,7 @@ RUN chown jenkins:jenkins -R /var/lib/jenkins/plugins
 
 # PHP Related
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN chmod a+rwx -R /usr/share/composer/cache
 
 RUN composer global require phpmetrics/phpmetrics --no-progress
 RUN composer global require squizlabs/php_codesniffer --no-progress
