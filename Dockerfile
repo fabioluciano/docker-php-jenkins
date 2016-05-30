@@ -24,7 +24,7 @@ RUN echo "extension=oci8.so" > /etc/php.d/oci8.ini
 RUN printf "\n" | pecl install mongo
 RUN echo "extension=mongo.so" > /etc/php.d/mongo.ini
 
-RUN sed -i "s/^;date.timezone =$/date.timezone = \"America\/Sao_Paulo\"/" /etc/php.ini | grep "^timezone" /etc/php.ini
+RUN sed -i "s/^;date.timezone =$/date.timezone = \"America\/Sao_Paulo\"/" /etc/php.ini
 
 #VOLUME ["/var/lib/jenkins", "/var/log/jenkins"]
 
@@ -35,7 +35,6 @@ RUN chown jenkins:jenkins -R /var/lib/jenkins/plugins
 
 # PHP Related
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN chmod a+rwx -R /usr/share/composer/cache
 
 RUN composer global require phpmetrics/phpmetrics --no-progress
 RUN composer global require squizlabs/php_codesniffer --no-progress
@@ -46,8 +45,8 @@ RUN composer global require pdepend/pdepend --no-progress
 RUN composer global require phploc/phploc --no-progress
 RUN composer global require phpmd/phpmd --no-progress
 RUN composer global require theseer/phpdox --no-progress
-#RUN composer global require phpdocumentor/phpdocumentor --no-progress
 
+RUN chmod a+rwx -R /usr/share/composer/cache
 RUN ln -s /usr/share/composer/vendor/bin/* /usr/local/bin/
 
 RUN install -p /var/lib/jenkins/jobs/php_template -d  -o jenkins -g jenkins
