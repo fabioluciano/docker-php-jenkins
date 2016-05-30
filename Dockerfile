@@ -25,6 +25,7 @@ RUN printf "\n" | pecl install mongo
 RUN echo "extension=mongo.so" > /etc/php.d/mongo.ini
 
 RUN sed -i "s/^;date.timezone =$/date.timezone = \"America\/Sao_Paulo\"/" /etc/php.ini
+RUN sed -i "s/^memory_limit =$/memory_limit = 1024M/" /etc/php.ini
 
 #VOLUME ["/var/lib/jenkins", "/var/log/jenkins"]
 
