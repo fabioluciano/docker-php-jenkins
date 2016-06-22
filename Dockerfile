@@ -9,7 +9,7 @@ RUN rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
 ADD http://pkg.jenkins-ci.org/redhat/jenkins.repo /etc/yum.repos.d/jenkins.repo
 RUN rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
 
-RUN yum update -y && yum install -y java jenkins dejavu-fonts-common ant wget initscripts openssl-devel && yum groupinstall 'Development Tools' -y && yum install -y php56w-common php56w-opcache php56w-mbstring php56w-opcache php56w-mcrypt php56w-intl php56w-devel php56w-gd php56w-ldap php56w-mysql php56w-pdo php56w-pgsql php56w-xml php56w-pear php56w-pecl-xdebug && yum clean all
+RUN yum update -y && yum install -y java jenkins dejavu-fonts-common ant wget initscripts openssl-devel && yum groupinstall 'Development Tools' -y && yum install -y php56w-common php56w-opcache php56w-mbstring php56w-opcache php56w-mcrypt php56w-intl php56w-devel php56w-gd php56w-ldap php56w-mysql php56w-pdo php56w-pgsql php56w-xml php56w-pear php56w-pecl-xdebug php56w-soap && yum clean all
 
 COPY packages/oracle-instantclient12.1-basic-12.1.0.2.0-1.x86_64.rpm /tmp/
 COPY packages/oracle-instantclient12.1-sqlplus-12.1.0.2.0-1.x86_64.rpm /tmp/
